@@ -1,0 +1,13 @@
+{
+    "presets": [
+        ["@babel/preset-env", {"targets": {"node": "current"}}],
+        ["@babel/preset-react", {"targets": {"node": "current"}}] // add this
+      ],
+    "plugins":["@babel/plugin-syntax-jsx", [
+      "formatjs",
+      {
+        "idInterpolationPattern": "[sha512:contenthash:base64:6]",
+        "ast": true
+      }
+    ]]
+}

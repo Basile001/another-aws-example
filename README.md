@@ -5,7 +5,9 @@ Another aws example is a public app to help you to start with serverless applica
 Three mains directories back, cdk, front.
 
 back : microservices using AWS lambda
+
 cdk : AWS infrastucture of the project
+
 front : the front app using React and MUI
 
 ## Back application
@@ -71,3 +73,11 @@ The stack contains :
 
 
 ## Front app
+
+Front app made with React and Material ui, read the readme inside the "front" directory for more information.
+
+### Useful commands
+```
+npm i
+npm start
+```
