@@ -175,7 +175,7 @@ export class CdkStack extends Stack {
             ],
         });
 
-        cognitoUserPool.addDomain(`another-aws-example-cognitoDomain${stage}`, {
+        cognitoUserPool.addDomain(`aae-cognitoDomain${stage}`, {
             cognitoDomain: {
                 domainPrefix: `anotherawsexample${stage}`,
             },
