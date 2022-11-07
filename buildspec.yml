@@ -1,0 +1,44 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - n 16.14.0
+      # Install all dependencies (including dependencies for running tests)
+      - cd back
+      - npm install
+      # Install CDK dependencies
+      - cd ../cdk
+      - npm install -g aws-cdk@2.41.0
+      - npm install
+      - cd ../
+  pre_build:
+    commands:
+      - cd back
+      # Discover and run unit tests in the '__tests__' directory
+      - npm run test
+      # Remove all dependencies not needed for the Lambda deployment package (the packages from devDependencies in package.json)
+      - npm run build
+      - npm prune --production
+      # Copy artifacts to a separate folder
+      - mkdir function-code
+      - cp -r bin function-code
+  build:
+    commands:
+      # Archive Lambda function code and upload it to S3
+      - cd function-code
+      - aws s3 cp . s3://$S3_BUCKET/$CODEBUILD_BUILD_ID/ --recursive
+      # Use AWS CDK to synthesize the application
+      - cd ../../cdk
+      - cdk synth > ../template-export.yml
+      # front build
+      - cp ./env/$STAGE/aws.ts ../front/my-app/src/configs/
+      - cd ../front/my-app
+      - npm prune --production
+      - npm run build
+  post_build:
+    commands:
+      - aws s3 cp --recursive build s3://$S3_STATIC_BUCKET/
+      - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST_ID --paths "/*"
+artifacts:
+    files:
+    - template-export.yml
