@@ -58,11 +58,11 @@ module.exports = {
           'ZipPlugin',
           () => {
             Object.keys(entry).forEach(name => {
-              //exec(`zip ${name}.zip ${name}.js`, { cwd: distPath })
-              exec(`7z a ${name}.zip ${name}.js`, { cwd: distPath })// FOR WINDOWS
+              exec(`zip ${name}.zip ${name}.js`, { cwd: distPath })
+              //exec(`7z a ${name}.zip ${name}.js`, { cwd: distPath })// FOR WINDOWS
             })
-            //exec(`rm *.js`, { cwd: distPath })
-            exec(`del *.js`, { cwd: distPath }); //FOR WINDOWS
+            exec(`rm *.js`, { cwd: distPath })
+            //exec(`del *.js`, { cwd: distPath }); //FOR WINDOWS
             console.info(
               'produced deployment packages:\n\n',
               Object.keys(entry).map(name => '  💾  ./' + path.join('./', distFolder, `${name}.zip`)).join('\n\n '),
