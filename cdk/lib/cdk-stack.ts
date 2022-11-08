@@ -19,14 +19,14 @@ export class CdkStack extends Stack {
 
         /**WEB STATIICS + DIST */
         //S3 static files
-        const myBucket = new s3.Bucket(this, `another-aws-example-static-bucket${stage}`, {
+        const myBucket = new s3.Bucket(this, `another-serverless-example-static-bucket${stage}`, {
             publicReadAccess: true,
             removalPolicy: RemovalPolicy.DESTROY,
             websiteIndexDocument: "index.html",
             bucketName: `${process.env.S3_STATIC_BUCKET}`
         });
 
-        const myCloudfront = new cloudfront.Distribution(this, `another-aws-example-dist${stage}`, {
+        const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
             defaultBehavior: {
                 viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
                 origin: new origins.S3Origin(myBucket)
@@ -36,7 +36,7 @@ export class CdkStack extends Stack {
         /** DATABASE */
         // DynamoDB table to store item: {id: <ID>, name: <NAME>}
         const noteTable = new dynamodb.Table(this, `NoteTable${stage}`, {
-            tableName: `another-aws-example-project${stage}`,
+            tableName: `ASE-note${stage}`,
             partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
             sortKey: { name: 'userId', type: dynamodb.AttributeType.STRING },
             readCapacity: 2,
@@ -126,12 +126,12 @@ export class CdkStack extends Stack {
 
 
         /**USERS */
-        const cognitoUserPool = new cognito.UserPool(this, `another-aws-example-userpool${stage}`, {
-            userPoolName: `another-aws-example-userpool${stage}`,
+        const cognitoUserPool = new cognito.UserPool(this, `another-serverless-example-userpool${stage}`, {
+            userPoolName: `another-serverless-example-userpool${stage}`,
             selfSignUpEnabled: true,
             userVerification: {
-                emailSubject: 'Verify your email for Another aws example!',
-                emailBody: 'Hello {username}, Thanks for signing up to our Another aws example app! Your verification link is {##Verify Email##}',
+                emailSubject: 'Verify your email for Another serverless example!',
+                emailBody: 'Hello {username}, Thanks for signing up to our Another serverless example app! Your verification link is {##Verify Email##}',
                 emailStyle: cognito.VerificationEmailStyle.LINK
             },
             signInAliases: {
@@ -152,11 +152,11 @@ export class CdkStack extends Stack {
                     mutable: true
                 }
             },
-            email: cognito.UserPoolEmail.withCognito('noreply@anotherawsexample.com'), //maybe improve with SES services
+            email: cognito.UserPoolEmail.withCognito('noreply@anotherserverless-example.com'), //maybe improve with SES services
             accountRecovery: cognito.AccountRecovery.EMAIL_ONLY
         });
 
-        const client = cognitoUserPool.addClient(`another-aws-example-app-client${stage}`, {
+        const client = cognitoUserPool.addClient(`another-serverless-example-app-client${stage}`, {
             oAuth: {
                 flows: {
                     authorizationCodeGrant: true,
@@ -175,9 +175,9 @@ export class CdkStack extends Stack {
             ],
         });
 
-        cognitoUserPool.addDomain(`aae-cognitoDomain${stage}`, {
+        cognitoUserPool.addDomain(`ase-cognitoDomain${stage}`, {
             cognitoDomain: {
-                domainPrefix: `anotherawsexample${stage}`,
+                domainPrefix: `anotherserverless-example${stage}`,
             },
         });
 
@@ -185,8 +185,8 @@ export class CdkStack extends Stack {
 
         /**API */
         const allowOrigins = process.env.STAGE === 'prod' ? [`https://${myCloudfront.distributionDomainName}`] : [`https://${myCloudfront.distributionDomainName}`, 'http://localhost:3000']
-        const api = new apigateway.RestApi(this, `another-aws-example-restapi${stage}`, {
-            restApiName: `another-aws-example-restapi${stage}`,
+        const api = new apigateway.RestApi(this, `another-serverless-example-restapi${stage}`, {
+            restApiName: `another-serverless-example-restapi${stage}`,
             cloudWatchRole: false,
             defaultCorsPreflightOptions: {
                 allowHeaders: [
@@ -203,7 +203,7 @@ export class CdkStack extends Stack {
 
         //Usage plan 
         const plan = api.addUsagePlan('UsagePlan', {
-            name: 'Usage plan another-aws-example',
+            name: 'Usage plan another-serverless-example',
             throttle: {
                 rateLimit: 50,
                 burstLimit: 10
@@ -214,7 +214,7 @@ export class CdkStack extends Stack {
         plan.addApiKey(key);
 
 
-        const auth = new apigateway.CognitoUserPoolsAuthorizer(this, `another-aws-example-authorizer${stage}`, {
+        const auth = new apigateway.CognitoUserPoolsAuthorizer(this, `another-serverless-example-authorizer${stage}`, {
             cognitoUserPools: [cognitoUserPool]
         });
 
