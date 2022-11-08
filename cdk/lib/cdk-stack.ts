@@ -157,6 +157,7 @@ export class CdkStack extends Stack {
         });
 
         const client = cognitoUserPool.addClient(`another-serverless-example-app-client${stage}`, {
+            userPoolClientName: `another-serverless-example-app-client${stage}`,
             oAuth: {
                 flows: {
                     authorizationCodeGrant: true,

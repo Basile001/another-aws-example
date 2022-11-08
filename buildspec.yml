@@ -37,7 +37,7 @@ phases:
       - npm run build
   post_build:
     commands:
-    #  - aws s3 cp --recursive build s3://$S3_STATIC_BUCKET/
+      - aws s3 cp --recursive build s3://$S3_STATIC_BUCKET/
       - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST_ID --paths "/*"
 artifacts:
     files:
