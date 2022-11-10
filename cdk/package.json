@@ -21,14 +21,14 @@
         "typescript": "^4.8.3"
     },
     "dependencies": {
-        "@aws-cdk/aws-apigateway": "1.172.0",
-        "@aws-cdk/aws-dynamodb": "1.172.0",
-        "@aws-cdk/aws-lambda": "1.172.0",
-        "@aws-cdk/aws-s3": "1.172.0",
-        "@aws-cdk/core": "1.172.0",
-        "@aws-cdk/aws-cloudfront": "1.172.0",
-        "@aws-cdk/aws-cloudfront-origins": "1.172.0",
-        "@aws-cdk/aws-cognito": "1.172.0",
+        "@aws-cdk/aws-apigateway": "1.180.0",
+        "@aws-cdk/aws-dynamodb": "1.180.0",
+        "@aws-cdk/aws-lambda": "1.180.0",
+        "@aws-cdk/aws-s3": "1.180.0",
+        "@aws-cdk/core": "1.180.0",
+        "@aws-cdk/aws-cloudfront": "1.180.0",
+        "@aws-cdk/aws-cloudfront-origins": "1.180.0",
+        "@aws-cdk/aws-cognito": "1.180.0",
         "@aws-cdk/aws-route53": "1.180.0",
         "@aws-cdk/aws-route53-targets": "1.180.0"
     }
