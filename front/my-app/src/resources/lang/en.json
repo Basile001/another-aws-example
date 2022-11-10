@@ -1,5 +1,5 @@
 {
-  "app.name": "Another aws example",
+  "app.name": "Another serverless example",
   "auth.loginSuccess": "Login Successfully",
   "auth.forgotPassword": "Forgot password?",
   "auth.loginAccount": "Login to Your Account",
@@ -78,5 +78,11 @@
   "profile.lastName": "Last name",
   "profile.firstName": "First name",
   "profile.birthdate": "Birthdate",
-  "profile.saved": "Profile modified"
+  "profile.saved": "Profile modified",
+  "welcomePage.welcome": "Welcome to Another Serverless Example.",
+  "welcomePage.intro": "Another Serverless Example (ASE) is an open source project to share to the community the knowledge of how create a serverless app on AWS. ASE uses a myriad of AWS services such as Lambda, DynamoDB, Cognito, API Gateway, Cloudfront and so on... ASE doesn't do much, after creating an account you can create some post-it on a private board and save them. You can obviously easily delete your account and all data attached to it in the security settings.",
+  "welcomePage.github": "The source code of the application is available on Github:",
+  "welcomePage.githubLink": "Github Link to ASE project",
+  "welcomePage.whoami": "Who am I?",
+  "welcomePage.contactus": "Contact us:"
 }

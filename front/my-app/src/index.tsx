@@ -10,6 +10,7 @@ import Profile from './components/auth/Profile';
 import Security from './components/auth/Security';
 import ResetPassword from './components/auth/ResetPassword';
 import Dashboard from './components/Dashboard';
+import WelcomePage from './components/WelcomePage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { ReactNotifications } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css';
@@ -32,12 +33,13 @@ const theme = createTheme();
 
 root.render(
   <React.StrictMode>
-    <IntlProvider locale={language} defaultLocale="en" messages={messages[language]}>
+    <IntlProvider locale={language} defaultLocale="en" messages={messages[language] || messages["en"]}>
       <ThemeProvider theme={theme}>
         <ReactNotifications />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />}>
+              <Route path="/" element={<WelcomePage />} />
               <Route path="signup" element={<Signup />} />
               <Route path="login" element={<Login />} />
               <Route path="resetPassword" element={<ResetPassword />} />

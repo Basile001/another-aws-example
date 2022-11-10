@@ -5,6 +5,8 @@ import * as s3 from '@aws-cdk/aws-s3';
 import * as cloudfront from '@aws-cdk/aws-cloudfront';
 import * as origins from '@aws-cdk/aws-cloudfront-origins';
 import * as cognito from '@aws-cdk/aws-cognito';
+import * as route53 from '@aws-cdk/aws-route53';
+import * as targets from '@aws-cdk/aws-route53-targets';
 import { App, CfnParameter, Duration, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
 import { Resource } from '@aws-cdk/aws-apigateway';
 
@@ -32,6 +34,19 @@ export class CdkStack extends Stack {
                 origin: new origins.S3Origin(myBucket)
             }
         });
+
+
+        //route 53 + domain for prod
+        if (process.env.STAGE === "prod") {
+            const publicHostedZone = new route53.PublicHostedZone(this, 'HostedZone', {
+                zoneName: 'anotherserverlessexample.com',
+            });
+
+            new route53.AaaaRecord(this, 'Alias', {
+                zone: publicHostedZone,
+                target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(myCloudfront)),
+            });
+        }
 
         /** DATABASE */
         // DynamoDB table to store item: {id: <ID>, name: <NAME>}

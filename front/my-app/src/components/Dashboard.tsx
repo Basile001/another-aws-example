@@ -89,7 +89,6 @@ const Dashboard: React.FC = () => {
     }
   }
 
-
   const handleDelete = async (noteId: string) => {
     setLoading(true);
     if (authService.isLoggedIn()) {
