@@ -45,6 +45,13 @@ export class CdkStack extends Stack {
             new route53.AaaaRecord(this, 'Alias', {
                 zone: publicHostedZone,
                 target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(myCloudfront)),
+
+            });
+
+            new route53.ARecord(this, 'AliasARecord', {
+                zone: publicHostedZone,
+                target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(myCloudfront)),
+                
             });
         }
 
