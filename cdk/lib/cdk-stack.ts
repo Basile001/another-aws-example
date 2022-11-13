@@ -7,8 +7,11 @@ import * as origins from '@aws-cdk/aws-cloudfront-origins';
 import * as cognito from '@aws-cdk/aws-cognito';
 import * as route53 from '@aws-cdk/aws-route53';
 import * as targets from '@aws-cdk/aws-route53-targets';
+import * as certificatemanager from '@aws-cdk/aws-certificatemanager'
 import { App, CfnParameter, Duration, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
 import { Resource } from '@aws-cdk/aws-apigateway';
+import { PublicHostedZone } from '@aws-cdk/aws-route53';
+import { Certificate } from '@aws-cdk/aws-certificatemanager';
 
 
 export class CdkStack extends Stack {
@@ -28,30 +31,36 @@ export class CdkStack extends Stack {
             bucketName: `${process.env.S3_STATIC_BUCKET}`
         });
 
+
+        let publicHostedZone;
+        let aseCertificate;
+        if (process.env.STAGE === "prod") {
+            publicHostedZone = new route53.PublicHostedZone(this, 'HostedZone', {
+                zoneName: 'anotherserverlessexample.com',
+            });
+            aseCertificate = new certificatemanager.DnsValidatedCertificate(this, 'ASECrossRegionCertificate', {
+                domainName: 'anotherserverlessexample.com',
+                hostedZone: publicHostedZone,
+                region: 'us-east-1',
+            });
+        }
+
         const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
             defaultBehavior: {
                 viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-                origin: new origins.S3Origin(myBucket)
-            }
+                origin: new origins.S3Origin(myBucket),
+            },
+            enableIpv6: true,
+            certificate: aseCertificate,
+            domainNames: process.env.STAGE === "prod" ? ['anotherserverlessexample.com'] : []
         });
 
 
         //route 53 + domain for prod
-        if (process.env.STAGE === "prod") {
-            const publicHostedZone = new route53.PublicHostedZone(this, 'HostedZone', {
-                zoneName: 'anotherserverlessexample.com',
-            });
-
+        if (process.env.STAGE === "prod" && publicHostedZone) {
             new route53.AaaaRecord(this, 'Alias', {
                 zone: publicHostedZone,
                 target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(myCloudfront)),
-
-            });
-
-            new route53.ARecord(this, 'AliasARecord', {
-                zone: publicHostedZone,
-                target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(myCloudfront)),
-                
             });
         }
 
