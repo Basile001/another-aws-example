@@ -41,7 +41,7 @@ export class CdkStack extends Stack {
             aseCertificate = new certificatemanager.DnsValidatedCertificate(this, 'ASECrossRegionCertificate', {
                 domainName: 'anotherserverlessexample.com',
                 hostedZone: publicHostedZone,
-                region: 'us-east-1',
+                region: 'us-east-1'
             });
         }
 
@@ -51,8 +51,8 @@ export class CdkStack extends Stack {
                 origin: new origins.S3Origin(myBucket),
             },
             enableIpv6: true,
-            certificate: process.env.STAGE === "prod" ? aseCertificate : undefined,
-            domainNames: process.env.STAGE === "prod" ? ['anotherserverlessexample.com'] : undefined
+            // certificate: process.env.STAGE === "prod" ? aseCertificate : undefined,
+            // domainNames: process.env.STAGE === "prod" ? ['anotherserverlessexample.com'] : undefined
         });
 
 
