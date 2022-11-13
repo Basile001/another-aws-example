@@ -51,7 +51,7 @@ export class CdkStack extends Stack {
                 origin: new origins.S3Origin(myBucket),
             },
             enableIpv6: true,
-            certificate: aseCertificate,
+            certificate: aseCertificate ? aseCertificate : undefined,
             domainNames: process.env.STAGE === "prod" ? ['anotherserverlessexample.com'] : []
         });
 
