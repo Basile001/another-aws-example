@@ -30,42 +30,42 @@ export class CdkStack extends Stack {
 
 
         let distributionDomainName = "";
-        // if (process.env.STAGE === "prod") {
-        const publicHostedZone = new route53.PublicHostedZone(this, 'ASEHostedZone', {
-            zoneName: 'anotherserverlessexample.com',
-        });
-        const aseCertificate = new certificatemanager.DnsValidatedCertificate(this, 'ASECrossRegionCertificate', {
-            domainName: 'anotherserverlessexample.com',
-            hostedZone: publicHostedZone,
-            region: 'us-east-1'
-        });
+        if (process.env.STAGE === "prod") {
+            const publicHostedZone = new route53.PublicHostedZone(this, 'ASEHostedZone', {
+                zoneName: 'anotherserverlessexample.com',
+            });
+            const aseCertificate = new certificatemanager.DnsValidatedCertificate(this, 'ASECrossRegionCertificate', {
+                domainName: 'anotherserverlessexample.com',
+                hostedZone: publicHostedZone,
+                region: 'us-east-1'
+            });
 
-        const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
-            defaultBehavior: {
-                viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-                origin: new origins.S3Origin(myBucket),
-            },
-            enableIpv6: true,
-            certificate: aseCertificate,
-            domainNames: ['anotherserverlessexample.com']
-        });
+            const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
+                defaultBehavior: {
+                    viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+                    origin: new origins.S3Origin(myBucket),
+                },
+                enableIpv6: true,
+                certificate: aseCertificate,
+                domainNames: ['anotherserverlessexample.com']
+            });
 
-        new route53.AaaaRecord(this, 'Alias', {
-            zone: publicHostedZone,
-            target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(myCloudfront)),
-        });
+            new route53.AaaaRecord(this, 'Alias', {
+                zone: publicHostedZone,
+                target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(myCloudfront)),
+            });
 
-        distributionDomainName = myCloudfront.distributionDomainName;
-        // } else {
-        //     const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
-        //         defaultBehavior: {
-        //             viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-        //             origin: new origins.S3Origin(myBucket),
-        //         },
-        //         enableIpv6: true
-        //     });
-        //     distributionDomainName = myCloudfront.distributionDomainName;
-        // }
+            distributionDomainName = myCloudfront.distributionDomainName;
+        } else {
+            const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
+                defaultBehavior: {
+                    viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+                    origin: new origins.S3Origin(myBucket),
+                },
+                enableIpv6: true
+            });
+            distributionDomainName = myCloudfront.distributionDomainName;
+        }
 
         /** DATABASE */
         // DynamoDB table to store item: {id: <ID>, name: <NAME>}
