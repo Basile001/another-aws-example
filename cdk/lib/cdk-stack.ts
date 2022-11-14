@@ -34,11 +34,11 @@ export class CdkStack extends Stack {
             const publicHostedZone = new route53.PublicHostedZone(this, 'ASEHostedZone', {
                 zoneName: 'anotherserverlessexample.com',
             });
-            // const aseCertificate = new certificatemanager.DnsValidatedCertificate(this, 'ASECrossRegionCertificate', {
-            //     domainName: 'anotherserverlessexample.com',
-            //     hostedZone: publicHostedZone,
-            //     region: 'us-east-1'
-            // });
+            const aseCertificate = new certificatemanager.DnsValidatedCertificate(this, 'ASECrossRegionCertificate', {
+                domainName: 'anotherserverlessexample.com',
+                hostedZone: publicHostedZone,
+                region: 'us-east-1'
+            });
 
             const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
                 defaultBehavior: {
@@ -46,8 +46,8 @@ export class CdkStack extends Stack {
                     origin: new origins.S3Origin(myBucket),
                 },
                 enableIpv6: true,
-                // certificate: aseCertificate,
-                // domainNames: ['anotherserverlessexample.com']
+                certificate: aseCertificate,
+                domainNames: ['anotherserverlessexample.com']
             });
 
             new route53.AaaaRecord(this, 'Alias', {
