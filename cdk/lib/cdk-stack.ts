@@ -10,9 +10,6 @@ import * as targets from '@aws-cdk/aws-route53-targets';
 import * as certificatemanager from '@aws-cdk/aws-certificatemanager'
 import { App, CfnParameter, Duration, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
 import { Resource } from '@aws-cdk/aws-apigateway';
-import { PublicHostedZone } from '@aws-cdk/aws-route53';
-import { Certificate } from '@aws-cdk/aws-certificatemanager';
-
 
 export class CdkStack extends Stack {
     constructor(scope: App, id: string, props: StackProps) {
