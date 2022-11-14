@@ -32,36 +32,42 @@ export class CdkStack extends Stack {
         });
 
 
-        let publicHostedZone;
-        let aseCertificate;
+        let distributionDomainName = "";
         if (process.env.STAGE === "prod") {
-            publicHostedZone = new route53.PublicHostedZone(this, 'HostedZone', {
+            const publicHostedZone = new route53.PublicHostedZone(this, 'ASEHostedZone', {
                 zoneName: 'anotherserverlessexample.com',
             });
-            // aseCertificate = new certificatemanager.DnsValidatedCertificate(this, 'ASECrossRegionCertificate', {
-            //     domainName: 'anotherserverlessexample.com',
-            //     hostedZone: publicHostedZone,
-            //     region: 'us-east-1'
-            // });
-        }
+            const aseCertificate = new certificatemanager.DnsValidatedCertificate(this, 'ASECrossRegionCertificate', {
+                domainName: 'anotherserverlessexample.com',
+                hostedZone: publicHostedZone,
+                region: 'us-east-1'
+            });
 
-        const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
-            defaultBehavior: {
-                viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-                origin: new origins.S3Origin(myBucket),
-            },
-            enableIpv6: true,
-            // certificate: process.env.STAGE === "prod" ? aseCertificate : undefined,
-            // domainNames: process.env.STAGE === "prod" ? ['anotherserverlessexample.com'] : undefined
-        });
+            const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
+                defaultBehavior: {
+                    viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+                    origin: new origins.S3Origin(myBucket),
+                },
+                enableIpv6: true,
+                certificate: aseCertificate,
+                domainNames: ['anotherserverlessexample.com']
+            });
 
-
-        //route 53 + domain for prod
-        if (process.env.STAGE === "prod" && publicHostedZone) {
             new route53.AaaaRecord(this, 'Alias', {
                 zone: publicHostedZone,
                 target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(myCloudfront)),
             });
+
+            distributionDomainName = myCloudfront.distributionDomainName;
+        } else {
+            const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
+                defaultBehavior: {
+                    viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+                    origin: new origins.S3Origin(myBucket),
+                },
+                enableIpv6: true
+            });
+            distributionDomainName = myCloudfront.distributionDomainName;
         }
 
         /** DATABASE */
@@ -195,8 +201,8 @@ export class CdkStack extends Stack {
                     implicitCodeGrant: true
                 },
                 scopes: [cognito.OAuthScope.OPENID],
-                callbackUrls: [`https://${myCloudfront.distributionDomainName}/dashboard`],
-                logoutUrls: [`https://${myCloudfront.distributionDomainName}/login`],
+                callbackUrls: [`https://${distributionDomainName}/dashboard`],
+                logoutUrls: [`https://${distributionDomainName}/login`],
             },
             authFlows: {
                 userPassword: true,
@@ -216,7 +222,7 @@ export class CdkStack extends Stack {
         //TODO add identity providers
 
         /**API */
-        const allowOrigins = process.env.STAGE === 'prod' ? [`https://${myCloudfront.distributionDomainName}`] : [`https://${myCloudfront.distributionDomainName}`, 'http://localhost:3000']
+        const allowOrigins = process.env.STAGE === 'prod' ? [`https://${distributionDomainName}`] : [`https://${distributionDomainName}`, 'http://localhost:3000']
         const api = new apigateway.RestApi(this, `another-serverless-example-restapi${stage}`, {
             restApiName: `another-serverless-example-restapi${stage}`,
             cloudWatchRole: false,
