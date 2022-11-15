@@ -7,7 +7,8 @@ import * as origins from '@aws-cdk/aws-cloudfront-origins';
 import * as cognito from '@aws-cdk/aws-cognito';
 import * as route53 from '@aws-cdk/aws-route53';
 import * as targets from '@aws-cdk/aws-route53-targets';
-import * as certificatemanager from '@aws-cdk/aws-certificatemanager'
+import * as iam from '@aws-cdk/aws-iam';
+//import * as certificatemanager from '@aws-cdk/aws-certificatemanager'
 import { App, CfnParameter, Duration, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
 import { Resource } from '@aws-cdk/aws-apigateway';
 
@@ -158,6 +159,23 @@ export class CdkStack extends Stack {
         });
         noteTable.grantReadData(getAllNoteFunction);
 
+        artifactKey = `${process.env.CODEBUILD_BUILD_ID}/bin/sendMail.zip`;
+        code = lambda.Code.fromBucket(artifactBucket, artifactKey);
+        const sendMailFunction = new lambda.Function(this, `sendMail${stage}`, {
+            functionName: `sendMail${stage}`,
+            description: 'Send an email to the creator of ASE',
+            handler: 'src/handlers/sendMail.sendMailHandler',
+            runtime: lambda.Runtime.NODEJS_14_X,
+            code,
+            timeout: Duration.seconds(5),
+            environment,
+        });
+        sendMailFunction.addToRolePolicy(new iam.PolicyStatement({
+            actions: ['ses:SendEmail', 'SES:SendRawEmail'],
+            resources: ['*'],
+            effect: iam.Effect.ALLOW,
+        }));
+
 
         /**USERS */
         const cognitoUserPool = new cognito.UserPool(this, `another-serverless-example-userpool${stage}`, {
@@ -186,7 +204,7 @@ export class CdkStack extends Stack {
                     mutable: true
                 }
             },
-            email: cognito.UserPoolEmail.withCognito('noreply@anotherserverless-example.com'), //maybe improve with SES services
+            email: cognito.UserPoolEmail.withCognito('noreply@anotherserverlessexample.com'), //maybe improve with SES services
             accountRecovery: cognito.AccountRecovery.EMAIL_ONLY
         });
 
@@ -276,6 +294,8 @@ export class CdkStack extends Stack {
             authorizer: auth,
             authorizationType: apigateway.AuthorizationType.COGNITO,
         });
+
+        api.root.addResource("send").addMethod('POST', new apigateway.LambdaIntegration(sendMailFunction));
 
 
     }

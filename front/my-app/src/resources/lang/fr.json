@@ -54,6 +54,7 @@
   "button.create": "Créer",
   "button.open": "Ouvrir",
   "button.delete": "Supprimer",
+  "button.send": "Envoyer",
   "menu": "Menu",
   "menu.home": "Accueil",
   "menu.dashboard": "Tableau de bord",
@@ -84,5 +85,10 @@
   "welcomePage.github": "Le code source de l'application est disponible sur Github :",
   "welcomePage.githubLink": "Lien Github vers le projet ASE",
   "welcomePage.whoami": "Qui suis je ?",
-  "welcomePage.contactus": "Nous contacter :"
+  "welcomePage.contactus": "Nous contacter :",
+  "welcomePage.mylinkedin": "Mon profil LinkedIn",
+  "welcomePage.yourEmail": "Votre email",
+  "welcomePage.title": "Titre",
+  "welcomePage.request": "Requête",
+  "welcomePage.mailSent": "Mail envoyé avec succès !"
 }

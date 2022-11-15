@@ -54,6 +54,7 @@
   "button.create": "Create",
   "button.open": "Open",
   "button.delete": "Delete",
+  "button.send": "Send",
   "dashboard.createNote": "Create new note",
   "dashboard.loadingNoteError": "Error during loading of your notes, please retry later...",
   "dashboard.editNoteSuccess": "Note updated with success",
@@ -84,5 +85,10 @@
   "welcomePage.github": "The source code of the application is available on Github:",
   "welcomePage.githubLink": "Github Link to ASE project",
   "welcomePage.whoami": "Who am I?",
-  "welcomePage.contactus": "Contact us:"
+  "welcomePage.contactus": "Contact us:",
+  "welcomePage.mylinkedin": "My LinkedIn profile",
+  "welcomePage.yourEmail": "Your email",
+  "welcomePage.title": "Title",
+  "welcomePage.request": "Request",
+  "welcomePage.mailSent": "Mail sent with success !"
 }
