@@ -2,9 +2,10 @@ import {
     APIGatewayProxyEvent,
     APIGatewayProxyResult
 } from "aws-lambda";
-import { SES } from 'aws-sdk';
+//import { SES } from 'aws-sdk';
+import { SESClient, SendEmailCommand, SendEmailCommandInput } from '@aws-sdk/client-ses';
 
-const ses = new SES({ region: "us-west-3" });
+const sesClient = new SESClient({ region: "eu-west-3" });
 
 exports.sendMailHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const { httpMethod, body } = event;
@@ -19,23 +20,23 @@ exports.sendMailHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewa
         data = body;
     }
 
-    var params = {
+    var params: SendEmailCommandInput = {
         Destination: {
             ToAddresses: ["anotherserverlessexample@gmail.com"],
         },
         Message: {
             Body: {
-                Text: { Data: data.mail.body },
+                Text: { Data: `${data.mail.body}\n\nFrom: ${data.mail.email}` },
             },
 
             Subject: { Data: data.mail.title },
         },
-        Source: data.mail.email,
+        Source: "support@anotherserverlessexample.com",
     };
 
-    //let response = null;
-    return ses.sendEmail(params).promise().then((data) => {
-        console.log(data.MessageId);
+    try {
+        const result = await sesClient.send(new SendEmailCommand(params));
+        console.log(result);
         return {
             statusCode: 200,
             body: "SUCCESS",
@@ -44,7 +45,7 @@ exports.sendMailHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewa
                 "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS 
             }
         };
-    }).catch((err) => {
+    } catch (err) {
         console.error(err, err.stack);
         return {
             statusCode: 500,
@@ -54,6 +55,5 @@ exports.sendMailHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewa
                 "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS 
             }
         };
-    });
-
+    }
 }
