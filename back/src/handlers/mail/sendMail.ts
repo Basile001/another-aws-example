@@ -33,10 +33,10 @@ exports.sendMailHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewa
         Source: data.mail.email,
     };
 
-    let response = null;
-    try {
-        await ses.sendEmail(params);
-        response = {
+    //let response = null;
+    return ses.sendEmail(params).promise().then((data) => {
+        console.log(data.MessageId);
+        return {
             statusCode: 200,
             body: "SUCCESS",
             headers: {
@@ -44,9 +44,9 @@ exports.sendMailHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewa
                 "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS 
             }
         };
-    } catch (err) {
-        console.error(err)
-        response = {
+    }).catch((err) => {
+        console.error(err, err.stack);
+        return {
             statusCode: 500,
             body: "ERROR",
             headers: {
@@ -54,7 +54,6 @@ exports.sendMailHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewa
                 "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS 
             }
         };
-    }
+    });
 
-    return response;
 }

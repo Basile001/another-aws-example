@@ -4,4 +4,4 @@ export const COGNITO = {
   APP_CLIENT_ID: "443gmgnhmt86jfegq0gfmovqno",
 };
 
-export const API_URL = "https://ycsph39yka.execute-api.eu-west-3.amazonaws.com/prod";
+export const API_URL = "https://ycsph39yka.execute-api.eu-west-3.amazonaws.com/prod/";
