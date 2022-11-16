@@ -4,6 +4,8 @@ import {
 } from "aws-lambda";
 import { DynamoDBClient, BatchWriteItemCommand, BatchWriteItemCommandInput, QueryCommandInput, QueryCommand } from "@aws-sdk/client-dynamodb";
 import jwt_decode from "jwt-decode";
+import { unmarshall, marshall } from "@aws-sdk/util-dynamodb";
+
 
 const client = new DynamoDBClient({ region: "eu-west-3" });
 
@@ -35,10 +37,10 @@ exports.deleteAllNoteHandler = async (event: APIGatewayProxyEvent): Promise<APIG
                 [tableName]: resultGet.Items.map((res) => {
                     return {
                         DeleteRequest: {
-                            Key: {
-                                id:
-                                    res.id
-                            }
+                            Key: marshall({
+                                id: unmarshall(res).id,
+                                userId: jwt['cognito:username']
+                            })
                         }
                     }
                 })
