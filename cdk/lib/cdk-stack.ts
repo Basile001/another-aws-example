@@ -138,7 +138,7 @@ export class CdkStack extends Stack {
         const deleteAllNoteFunction = new lambda.Function(this, `deleteAllNote${stage}`, {
             functionName: `deleteAllNote${stage}`,
             description: 'Delete all existing notes',
-            handler: 'src/handlers/delete-note.deleteAllNoteHandler',
+            handler: 'src/handlers/deleteAll-note.deleteAllNoteHandler',
             runtime: lambda.Runtime.NODEJS_14_X,
             code,
             timeout: Duration.seconds(5),
