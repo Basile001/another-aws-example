@@ -39,6 +39,7 @@
   "auth.security.deleteAccount": "Delete your account and all data attached to it!",
   "auth.security.deleteAccountConfirm": "Are you sure to delete your account this action is irreversible?",
   "auth.security.accountDeleted": "Account deleted, goodbye!",
+  "auth.security.accountDeleteFailed": "Account delete action failed! You can retry or contact us if the problem persists.",
   "auth.security.emailChanged": "Email has been changed, check your mailbox",
   "auth.security.emailVerified": "Email has been verified with success",
   "auth.security.emailAlreadyVerified": "Email already verified! Nothing to do.",

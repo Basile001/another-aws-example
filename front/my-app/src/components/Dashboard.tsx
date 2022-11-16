@@ -74,7 +74,6 @@ const Dashboard: React.FC = () => {
     if (authService.isLoggedIn()) {
       const noteUpdated: Note = { id: editedNoteId, name: name, description: description };
       const result = await noteService.updateNote(noteUpdated);
-      console.log(result);
       if (result.status === 200) {
         notificaton(intl.formatMessage({ id: "notification.success" }), intl.formatMessage({ id: "dashboard.editNoteSuccess" }), "success");
         setNotes(notes.map((proj) => proj.id === noteUpdated.id ? noteUpdated : proj))

@@ -39,6 +39,7 @@
   "auth.security.deleteAccount": "Supprimez votre compte et toutes les données qui y sont attachées !",
   "auth.security.deleteAccountConfirm": "Êtes vous sûr de supprimer votre compte cette action est irréversible ?",
   "auth.security.accountDeleted": "Compte Supprimer, au revoir!",
+  "auth.security.accountDeleteFailed": "L'action de suppression du compte a échoué ! Vous pouvez réessayer ou nous contacter si le problème persiste.",
   "auth.security.emailChanged": "Votre Email a été changé, vérifier votre boîte mail.",
   "auth.security.emailVerified": "Votre Email a été vérifié avec succès.",
   "auth.security.emailAlreadyVerified": "Email déjà vérifié ! Rien à faire de plus.",

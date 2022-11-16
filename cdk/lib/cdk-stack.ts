@@ -133,6 +133,19 @@ export class CdkStack extends Stack {
         });
         noteTable.grantReadWriteData(deleteNoteFunction);
 
+        artifactKey = `${process.env.CODEBUILD_BUILD_ID}/bin/deleteAll-note.zip`;
+        code = lambda.Code.fromBucket(artifactBucket, artifactKey);
+        const deleteAllNoteFunction = new lambda.Function(this, `deleteAllNote${stage}`, {
+            functionName: `deleteAllNote${stage}`,
+            description: 'Delete all existing notes',
+            handler: 'src/handlers/delete-note.deleteAllNoteHandler',
+            runtime: lambda.Runtime.NODEJS_14_X,
+            code,
+            timeout: Duration.seconds(5),
+            environment,
+        });
+        noteTable.grantReadWriteData(deleteAllNoteFunction);
+
         artifactKey = `${process.env.CODEBUILD_BUILD_ID}/bin/get-note.zip`;
         code = lambda.Code.fromBucket(artifactBucket, artifactKey);
         const getNoteFunction = new lambda.Function(this, `getNote${stage}`, {
@@ -251,7 +264,7 @@ export class CdkStack extends Stack {
                 allowOrigins: allowOrigins,
                 allowMethods: ['GET', 'PUT', 'POST', 'OPTIONS', 'DELETE'],
                 allowCredentials: true
-            },
+            }
         });
 
         //Usage plan 
@@ -277,6 +290,10 @@ export class CdkStack extends Stack {
             authorizationType: apigateway.AuthorizationType.COGNITO,
         });
         noteEndpoint.addMethod('GET', new apigateway.LambdaIntegration(getAllNoteFunction), {
+            authorizer: auth,
+            authorizationType: apigateway.AuthorizationType.COGNITO,
+        });
+        noteEndpoint.addMethod('DELETE', new apigateway.LambdaIntegration(deleteAllNoteFunction), {
             authorizer: auth,
             authorizationType: apigateway.AuthorizationType.COGNITO,
         });

@@ -177,20 +177,25 @@ const Security: React.FC = () => {
         }
     }
 
-    const confirmDeleteUserHandler = (e: React.SyntheticEvent<Element, Event>) => {
+    const confirmDeleteUserHandler = async (e: React.SyntheticEvent<Element, Event>) => {
         e.preventDefault();
         setLoading(true);
         if (authService.isLoggedIn()) {
-            authService.getCognitoUser().deleteUser((error, result) => {
-                if (error) {
-                    notificaton(intl.formatMessage({ id: "notification.error" }), error.message, "danger");
+            const resultDelete = await authService.deleteAllDataForUser();
+            if (resultDelete.status === 200) {
+                authService.getCognitoUser().deleteUser((error, result) => {
+                    if (error) {
+                        notificaton(intl.formatMessage({ id: "notification.error" }), error.message, "danger");
+                        setLoading(false);
+                        return;
+                    }
+                    notificaton(intl.formatMessage({ id: "notification.success" }), intl.formatMessage({ id: "auth.security.accountDeleted" }), "success");
                     setLoading(false);
-                    return;
-                }
-                notificaton(intl.formatMessage({ id: "notification.success" }), intl.formatMessage({ id: "auth.security.accountDeleted" }), "success");
-                setLoading(false);
-                navigate("/");
-            });
+                    navigate("/");
+                });
+            } else {
+                notificaton(intl.formatMessage({ id: "notification.error" }), intl.formatMessage({ id: "auth.security.accountDeleteFailed" }), "danger");
+            }
         }
     }
 
