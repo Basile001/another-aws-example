@@ -205,33 +205,37 @@ export default function AppBarMenu() {
             >
               {!isMobile ? <FormattedMessage id="profile" /> : ""}
             </Button>
-            <Button
-              startIcon={<LogoutIcon />}
-              color="inherit"
-              onClick={handleLogout}
-            >
-              {!isMobile ? <FormattedMessage id="auth.logout" /> : ""}
-            </Button>
+            {!isMobile ?
+              <Button
+                startIcon={<LogoutIcon />}
+                color="inherit"
+                onClick={handleLogout}
+              >
+                <FormattedMessage id="auth.logout" />
+              </Button>
+              : ""}
           </>
           :
-          <>
-            <Button
-              startIcon={<Start />}
-              component={RouterLink}
-              to="/signup"
-              color="inherit"
-            >
-              {!isMobile ? <FormattedMessage id="auth.signUp" /> : ""}
-            </Button>
-            <Button
-              startIcon={<LoginIcon />}
-              component={RouterLink}
-              to="/login"
-              color="inherit"
-            >
-              {!isMobile ? <FormattedMessage id="auth.login" /> : ""}
-            </Button>
-          </>
+          !isMobile ?
+            <>
+
+              <Button
+                startIcon={<Start />}
+                component={RouterLink}
+                to="/signup"
+                color="inherit"
+              >
+                <FormattedMessage id="auth.signUp" />
+              </Button>
+              <Button
+                startIcon={<LoginIcon />}
+                component={RouterLink}
+                to="/login"
+                color="inherit"
+              >
+                <FormattedMessage id="auth.login" />
+              </Button>
+            </> : ""
         }
       </Toolbar>
     </AppBar>
