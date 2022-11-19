@@ -7,6 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useInput } from "../utils/forms";
 import { MailService } from "../services/MailService";
 import { notificaton } from "../utils/notifications";
+import { Link } from "react-router-dom";
 
 const WelcomePage: React.FC = () => {
     const [loading, setLoading] = React.useState(false);
@@ -48,6 +49,10 @@ const WelcomePage: React.FC = () => {
             </Typography>
             <Typography variant="subtitle1" sx={{ marginTop: 3 }} >
                 <FormattedMessage id="welcomePage.intro" />
+            </Typography>
+            <Typography variant="subtitle1" sx={{ marginTop: 1 }} >
+                <FormattedMessage id="welcomePage.moreInfo" />
+                <Link to="blog"><FormattedMessage id="welcomePage.blogLink" /></Link>
             </Typography>
             <Divider sx={{ margin: 3 }} />
             <Typography component="h1" variant="h6">

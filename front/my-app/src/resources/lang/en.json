@@ -1,5 +1,6 @@
 {
   "app.name": "Another serverless example",
+  "app.mobileName": "ASE",
   "auth.loginSuccess": "Login Successfully",
   "auth.forgotPassword": "Forgot password?",
   "auth.loginAccount": "Login to Your Account",
@@ -70,6 +71,7 @@
   "dashboard.welcome": "Welcome to your private dashboard",
   "menu": "Menu",
   "menu.home": "Home",
+  "menu.blog": "Blog",
   "menu.dashboard": "Dashboard",
   "menu.security": "Security settings",
   "notification.success": "Success!",
@@ -91,5 +93,7 @@
   "welcomePage.yourEmail": "Your email",
   "welcomePage.title": "Title",
   "welcomePage.request": "Request",
-  "welcomePage.mailSent": "Mail sent with success !"
+  "welcomePage.mailSent": "Mail sent with success !",
+  "welcomePage.moreInfo": "You can find more information about me and the project on the ",
+  "welcomePage.blogLink": "blog page."
 }

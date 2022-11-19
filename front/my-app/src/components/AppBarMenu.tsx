@@ -10,8 +10,9 @@ import Start from '@mui/icons-material/Start'
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
-import MapIcon from '@mui/icons-material/Map';
+import BookIcon from '@mui/icons-material/Book';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import HomeIcon from '@mui/icons-material/Home';
 import Lock from '@mui/icons-material/Lock';
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -22,6 +23,7 @@ import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import { ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
+import { isMobile } from 'react-device-detect';
 
 
 export default function AppBarMenu() {
@@ -72,9 +74,19 @@ export default function AppBarMenu() {
             component={RouterLink}
             to="/">
             <ListItemIcon>
-              <MapIcon />
+              <HomeIcon />
             </ListItemIcon>
             <ListItemText primary={intl.formatMessage({ id: "menu.home" })} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton
+            component={RouterLink}
+            to="/blog">
+            <ListItemIcon>
+              <BookIcon />
+            </ListItemIcon>
+            <ListItemText primary={intl.formatMessage({ id: "menu.blog" })} />
           </ListItemButton>
         </ListItem>
         {authService.isLoggedIn() ?
@@ -181,7 +193,7 @@ export default function AppBarMenu() {
           variant="h6"
           component={RouterLink}
           to="/">
-          <FormattedMessage id="app.name" />
+          {isMobile ? <FormattedMessage id="app.mobileName" /> : <FormattedMessage id="app.name" />}
         </Typography>
         {authService.isLoggedIn() ?
           <>
@@ -191,14 +203,14 @@ export default function AppBarMenu() {
               to="/profile"
               color="inherit"
             >
-              <FormattedMessage id="profile" />
+              {!isMobile ? <FormattedMessage id="profile" /> : ""}
             </Button>
             <Button
               startIcon={<LogoutIcon />}
               color="inherit"
               onClick={handleLogout}
             >
-              <FormattedMessage id="auth.logout" />
+              {!isMobile ? <FormattedMessage id="auth.logout" /> : ""}
             </Button>
           </>
           :
@@ -207,15 +219,17 @@ export default function AppBarMenu() {
               startIcon={<Start />}
               component={RouterLink}
               to="/signup"
-              color="inherit">
-              <FormattedMessage id="auth.signUp" />
+              color="inherit"
+            >
+              {!isMobile ? <FormattedMessage id="auth.signUp" /> : ""}
             </Button>
             <Button
               startIcon={<LoginIcon />}
               component={RouterLink}
               to="/login"
-              color="inherit">
-              <FormattedMessage id="auth.login" />
+              color="inherit"
+            >
+              {!isMobile ? <FormattedMessage id="auth.login" /> : ""}
             </Button>
           </>
         }

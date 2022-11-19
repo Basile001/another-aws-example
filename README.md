@@ -1,5 +1,7 @@
-# another-aws-example
-Another aws example is a public app to help you to start with serverless application
+# another-serverless-example
+Another serverless example is a public app to help you to start with AWS serverless services.
+
+You can find the apps running on : https://anotherserverlessexample.com
 
 # Structure of the project
 Three mains directories back, cdk, front.
@@ -58,9 +60,10 @@ The stack contains :
 - 1 Dynamo table
 - 1 S3 for static website
 - A cloudfront distribution
-- 5 Lambdas for back end microservices
+- 7 Lambdas for back end microservices
 - A cognito user pool
 - An api gateway
+
 
 ### Useful commands
 

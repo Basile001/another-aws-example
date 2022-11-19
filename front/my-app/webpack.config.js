@@ -16,11 +16,11 @@ module.exports = {
       {
         test: /\.svg$/,
         loader: 'svg-inline-loader'
-    }
+      }
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js', '.json'],
+    extensions: ['.tsx', '.ts', '.js', '.json', '.jpg'],
   },
   output: {
     filename: 'bundle.js',

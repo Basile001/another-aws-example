@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import './resources/css/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import Profile from './components/auth/Profile';
@@ -18,6 +18,7 @@ import messages_fr from "./resources/lang/fr.json";
 import messages_en from "./resources/lang/en.json";
 import { IntlProvider } from 'react-intl';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import BlogPage from './components/BlogPage';
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement as HTMLElement);
@@ -36,19 +37,20 @@ root.render(
     <IntlProvider locale={language} defaultLocale="en" messages={messages[language] || messages["en"]}>
       <ThemeProvider theme={theme}>
         <ReactNotifications />
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<App />}>
               <Route path="/" element={<WelcomePage />} />
               <Route path="signup" element={<Signup />} />
               <Route path="login" element={<Login />} />
               <Route path="resetPassword" element={<ResetPassword />} />
+              <Route path="blog" element={<BlogPage />} />
               <Route path="dashboard" element={<ProtectedRoute component={Dashboard} />} />
               <Route path="profile" element={<ProtectedRoute component={Profile} />} />
               <Route path="security" element={<ProtectedRoute component={Security} />} />
             </Route>
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </ThemeProvider>
     </IntlProvider>
   </React.StrictMode>);

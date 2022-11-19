@@ -1,5 +1,6 @@
 {
   "app.name": "Another serverless example",
+  "app.mobileName": "ASE",
   "auth.loginSuccess": "Connecté avec succès",
   "auth.forgotPassword": "Mot de passe oublié?",
   "auth.loginAccount": "Connectez-vous à votre compte",
@@ -58,6 +59,7 @@
   "button.send": "Envoyer",
   "menu": "Menu",
   "menu.home": "Accueil",
+  "menu.blog": "Blog",
   "menu.dashboard": "Tableau de bord",
   "menu.security": "Options de sécurité",
   "dashboard.createNote": "Créer une nouvelle note",
@@ -91,5 +93,7 @@
   "welcomePage.yourEmail": "Votre email",
   "welcomePage.title": "Titre",
   "welcomePage.request": "Requête",
-  "welcomePage.mailSent": "Mail envoyé avec succès !"
+  "welcomePage.mailSent": "Mail envoyé avec succès !",
+  "welcomePage.moreInfo": "Vous pouvez trouver plus d'information sur moi et le projet en allant sur la ",
+  "welcomePage.blogLink": "page de blog."
 }
