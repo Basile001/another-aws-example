@@ -8,7 +8,7 @@ import * as cognito from '@aws-cdk/aws-cognito';
 import * as route53 from '@aws-cdk/aws-route53';
 import * as targets from '@aws-cdk/aws-route53-targets';
 import * as iam from '@aws-cdk/aws-iam';
-//import * as certificatemanager from '@aws-cdk/aws-certificatemanager'
+import * as certificatemanager from '@aws-cdk/aws-certificatemanager'
 import { App, CfnParameter, Duration, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
 import { Resource } from '@aws-cdk/aws-apigateway';
 
@@ -35,11 +35,8 @@ export class CdkStack extends Stack {
             const publicHostedZone = new route53.PublicHostedZone(this, 'ASEHostedZone', {
                 zoneName: 'anotherserverlessexample.com',
             });
-            // const aseCertificate = new certificatemanager.DnsValidatedCertificate(this, 'ASECrossRegionCertificate', {
-            //     domainName: 'anotherserverlessexample.com',
-            //     hostedZone: publicHostedZone,
-            //     region: 'us-east-1'
-            // });
+
+            const aseCertificate = certificatemanager.Certificate.fromCertificateArn(this, 'Certificate', process.env.CERTIFICATE_ARN + "");
 
             const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
                 defaultBehavior: {
@@ -47,7 +44,7 @@ export class CdkStack extends Stack {
                     origin: new origins.S3Origin(myBucket),
                 },
                 enableIpv6: true,
-                // certificate: aseCertificate,
+                certificate: aseCertificate,
                 domainNames: ['anotherserverlessexample.com']
             });
 
@@ -56,7 +53,7 @@ export class CdkStack extends Stack {
                 target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(myCloudfront)),
             });
 
-            distributionDomainName = myCloudfront.distributionDomainName;
+            distributionDomainName = 'anotherserverlessexample.com';
         } else {
             const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
                 defaultBehavior: {
