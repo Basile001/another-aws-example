@@ -48,7 +48,7 @@ export class CdkStack extends Stack {
                 },
                 enableIpv6: true,
                 // certificate: aseCertificate,
-                // domainNames: ['anotherserverlessexample.com']
+                domainNames: ['anotherserverlessexample.com']
             });
 
             new route53.AaaaRecord(this, 'Alias', {
