@@ -54,7 +54,7 @@ const BlogPage: React.FC = () => {
             </Typography>
             <img src={require('../resources/jpg/pipelines.JPG')} alt="pipelines" title="pipelines"></img>
             <Typography variant="body1" sx={{ marginTop: 2, textAlign: "justify", textIndent: 30 }} >
-                I manually configured the pipelines by using the AWS console. I kept the three steps in each pipelines: source, build and deploy. <br /> The first one checkout the code with codestar.
+                I manually configured the pipelines by using the AWS console. I kept the three steps in each pipelines: source, build and deploy. <br /> The first step does a checkout of the code with AWS codestar.
                 For the production and pre-production pipeline codestar is plugged in the master branch of my github repository, the develop pipeline is plugged in the develop branch of my repository. Both develop and preprod pipelines
                 are triggered when the branch is updated in contrary of production which is triggered mannualy.
                 <br />
@@ -74,13 +74,13 @@ const BlogPage: React.FC = () => {
             </Typography>
             <img src={require('../resources/jpg/pipelinestep.JPG')} alt="pipeline screen" title="Pipeline steps" sizes=""></img>
             <Typography component="h1" variant="h5" sx={{ marginTop: 3 }}>
-                KNOWN ISSUES ON PIPELINES AND HOW TO IMPROVE:
+                KNOWN PIPELINES ISSUES AND HOW TO IMPROVE THEM:
             </Typography>
             <Typography variant="body1" sx={{ marginTop: 2, textAlign: "justify", textIndent: 30 }} >
-                My cloud formation serverless repository created by AWS drifted during the life of my project. I didn't see or realize the cloudformation stack for my pipelines / codebuild and policies until the near end of the
+                My AWS cloudformation serverless repository created by AWS drifted a lot during the life of my project. I didn't see or realize the cloudformation stack for my pipelines / codebuild and policies until the near end of the
                 project. Something I need to improve in my futur projects. <br />
                 Another problem is the copy of my static files and the invalidation of the Cloudfront cache done in my buildspec.yml. When the cloud formation stack is already deployed, my S3 and my distribution already
-                exist, so there is no problem. But when I decided to create new stack like dev or preprod environment the pipeline failed. To improve I need to move the buildspec post build command after the execution of the changeset in the pipeline rather than
+                exist, so there is no problem. But when I decided to create new stack for dev or preprod environment the pipelines failed. To improve I need to move the buildspec post build command after the execution of the changeset in the pipeline rather than
                 in the buildspec.
             </Typography>
             <Typography component="h1" variant="h5" sx={{ marginTop: 3 }}>
