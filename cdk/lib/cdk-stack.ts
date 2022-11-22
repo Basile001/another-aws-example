@@ -266,7 +266,7 @@ export class CdkStack extends Stack {
         });
 
         //Usage plan 
-        const plan = api.addUsagePlan('UsagePlan', {
+        const plan = api.addUsagePlan(`another-serverless-example-usage-plan${stage}`, {
             name: `another-serverless-example-usage-plan${stage}`,
             throttle: {
                 rateLimit: 50,
