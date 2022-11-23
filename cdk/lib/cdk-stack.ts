@@ -1,16 +1,17 @@
-import * as apigateway from '@aws-cdk/aws-apigateway';
-import * as dynamodb from '@aws-cdk/aws-dynamodb';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as cloudfront from '@aws-cdk/aws-cloudfront';
-import * as origins from '@aws-cdk/aws-cloudfront-origins';
-import * as cognito from '@aws-cdk/aws-cognito';
-import * as route53 from '@aws-cdk/aws-route53';
-import * as targets from '@aws-cdk/aws-route53-targets';
-import * as iam from '@aws-cdk/aws-iam';
-import * as certificatemanager from '@aws-cdk/aws-certificatemanager'
-import { App, CfnParameter, Duration, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
-import { Resource } from '@aws-cdk/aws-apigateway';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
+import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as route53 from 'aws-cdk-lib/aws-route53';
+import * as targets from 'aws-cdk-lib/aws-route53-targets';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as certificatemanager from 'aws-cdk-lib/aws-certificatemanager'
+import { App, CfnParameter, Duration, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
+import { Resource } from 'aws-cdk-lib/aws-apigateway';
+
 
 export class CdkStack extends Stack {
     constructor(scope: App, id: string, props: StackProps) {
@@ -270,8 +271,8 @@ export class CdkStack extends Stack {
         });
 
         //Usage plan 
-        const plan = api.addUsagePlan('UsagePlan', {
-            name: 'Usage plan another-serverless-example',
+        const plan = api.addUsagePlan(`another-serverless-example-usage-plan${stage}`, {
+            name: `another-serverless-example-usage-plan${stage}`,
             throttle: {
                 rateLimit: 50,
                 burstLimit: 10

@@ -29,6 +29,7 @@ phases:
       - aws s3 cp . s3://$S3_BUCKET/$CODEBUILD_BUILD_ID/ --recursive
       # Use AWS CDK to synthesize the application
       - cd ../../cdk
+      - cdk bootstrap 
       - cdk synth > ../template-export.yml
       # front build
       - cp ./env/$STAGE/aws.ts ../front/my-app/src/configs/
