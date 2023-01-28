@@ -72,16 +72,16 @@ export class CdkStack extends Stack {
             tableName: `ASE-note${stage}`,
             partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
             sortKey: { name: 'userId', type: dynamodb.AttributeType.STRING },
-            readCapacity: 2,
-            writeCapacity: 2,
+            readCapacity: 1,
+            writeCapacity: 1,
 
         });
 
         noteTable.addGlobalSecondaryIndex({
             indexName: 'userIdIndex',
             partitionKey: { name: 'userId', type: dynamodb.AttributeType.STRING },
-            readCapacity: 2,
-            writeCapacity: 2,
+            readCapacity: 1,
+            writeCapacity: 1,
             projectionType: dynamodb.ProjectionType.ALL,
         })
 
