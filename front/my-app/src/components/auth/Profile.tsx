@@ -141,13 +141,11 @@ const Profile: React.FC = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
               label={intl.formatMessage({ id: "profile.birthdate" })}
-              inputFormat="MM/DD/YYYY"
+              format="MM/DD/YYYY"
               onChange={handleDateChange}
               value={birthdate}
-              renderInput={(params) => <TextField
-                margin="normal"
-                fullWidth
-                {...params} />}
+              slots={{ textField: TextField }}
+              slotProps={{ textField: { margin: "normal", fullWidth: true } }}
             />
           </LocalizationProvider>
           <Button

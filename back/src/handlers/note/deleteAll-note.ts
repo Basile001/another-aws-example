@@ -3,7 +3,7 @@ import {
     APIGatewayProxyResult
 } from "aws-lambda";
 import { DynamoDBClient, BatchWriteItemCommand, BatchWriteItemCommandInput, QueryCommandInput, QueryCommand } from "@aws-sdk/client-dynamodb";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { unmarshall, marshall } from "@aws-sdk/util-dynamodb";
 
 
@@ -18,7 +18,7 @@ exports.deleteAllNoteHandler = async (event: APIGatewayProxyEvent): Promise<APIG
         throw new Error(`getMethod only accept GET method, you tried: ${httpMethod}`);
     }
 
-    const jwt: any = jwt_decode(headers.Authorization);
+    const jwt: any = jwtDecode(headers.Authorization);
 
     const paramsGet: QueryCommandInput = {
         TableName: tableName,
