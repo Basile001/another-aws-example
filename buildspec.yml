@@ -2,13 +2,13 @@ version: 0.2
 phases:
   install:
     commands:
-      - n 16.14.0
+      - n 22.9.0
       # Install all dependencies (including dependencies for running tests)
       - cd back
       - npm install
       # Install CDK dependencies
       - cd ../cdk
-      - npm install -g aws-cdk@2.41.0
+      - npm install -g aws-cdk@2.160.0
       - npm install
       - cd ../
   pre_build:
