@@ -4,7 +4,7 @@ import {
 } from "aws-lambda";
 import { DynamoDBClient, QueryCommand, QueryCommandInput } from "@aws-sdk/client-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 
 const client = new DynamoDBClient({ region: "eu-west-3" });
@@ -18,7 +18,7 @@ exports.getAllNoteHandler = async (event: APIGatewayProxyEvent): Promise<APIGate
         throw new Error(`getMethod only accept GET method, you tried: ${httpMethod}`);
     }
 
-    const jwt: any = jwt_decode(headers.Authorization);
+    const jwt: any = jwtDecode(headers.Authorization);
 
     const params: QueryCommandInput = {
         TableName: tableName,

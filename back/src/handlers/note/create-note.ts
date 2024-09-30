@@ -5,7 +5,7 @@ import {
 import { DynamoDBClient, PutItemCommand, PutItemCommandInput } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { v4 as uuidv4 } from 'uuid';
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 
 const client = new DynamoDBClient({ region: "eu-west-3" });
@@ -19,7 +19,7 @@ exports.createNoteHandler = async (event: APIGatewayProxyEvent): Promise<APIGate
         throw new Error(`postMethod only accepts POST method, you tried: ${httpMethod} method.`);
     }
 
-    const jwt: any = jwt_decode(headers.Authorization);
+    const jwt: any = jwtDecode(headers.Authorization);
 
     let data = null;
     try {
