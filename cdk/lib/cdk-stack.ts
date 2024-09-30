@@ -60,6 +60,11 @@ export class CdkStack extends Stack {
                 target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(myCloudfront)),
             });
 
+            new route53.ARecord(this, 'ARecord', {
+                zone: publicHostedZone,
+                target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(myCloudfront)),
+            });
+
             distributionDomainName = 'anotherserverlessexample.com';
         } else {
             const myCloudfront = new cloudfront.Distribution(this, `another-serverless-example-dist${stage}`, {
