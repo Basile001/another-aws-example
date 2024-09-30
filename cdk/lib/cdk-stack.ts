@@ -27,7 +27,13 @@ export class CdkStack extends Stack {
             publicReadAccess: true,
             removalPolicy: RemovalPolicy.DESTROY,
             websiteIndexDocument: "index.html",
-            bucketName: `${process.env.S3_STATIC_BUCKET}`
+            bucketName: `${process.env.S3_STATIC_BUCKET}`,
+            blockPublicAccess: new s3.BlockPublicAccess({
+                blockPublicAcls: false,
+                blockPublicPolicy: false,
+                ignorePublicAcls: false,
+                restrictPublicBuckets: false
+            }),
         });
 
 
