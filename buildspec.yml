@@ -8,7 +8,6 @@ phases:
       - npm install
       # Install CDK dependencies
       - cd ../cdk
-      - npm install -g aws-cdk@2.160.0
       - npm install
       - cd ../
   pre_build:
@@ -18,7 +17,6 @@ phases:
       - npm run test
       # Remove all dependencies not needed for the Lambda deployment package (the packages from devDependencies in package.json)
       - npm run build
-      - npm prune --production
       # Copy artifacts to a separate folder
       - mkdir function-code
       - cp -r bin function-code
@@ -34,11 +32,12 @@ phases:
       # front build
       - cp ./env/$STAGE/aws.ts ../front/my-app/src/configs/
       - cd ../front/my-app
+      - npm install
       - npm run build
-      - npm prune --production
   post_build:
     commands:
-      - aws s3 cp --recursive build s3://$S3_STATIC_BUCKET/
+      - aws s3 rm s3://$S3_STATIC_BUCKET/ --recursive
+      - aws s3 cp --recursive dist s3://$S3_STATIC_BUCKET/
       - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST_ID --paths "/*"
 artifacts:
     files:
