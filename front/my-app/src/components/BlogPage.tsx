@@ -2,7 +2,6 @@ import { Box, Container, CssBaseline, Typography } from "@mui/material";
 import React from "react";
 
 
-
 const BlogPage: React.FC = () => {
 
     return <Container component="main" maxWidth="lg">
@@ -52,7 +51,7 @@ const BlogPage: React.FC = () => {
             <Typography variant="body1" sx={{ marginTop: 2, textAlign: "justify", textIndent: 30 }} >
                 Later I create 3 pipelines based on the one created by AWS, each one for a specific environment prod, preprod and dev:
             </Typography>
-            <img src={require('../resources/jpg/pipelines.JPG')} alt="pipelines" title="pipelines"></img>
+            <img src="/jpg/pipelines.JPG" alt="pipelines" title="pipelines"></img>
             <Typography variant="body1" sx={{ marginTop: 2, textAlign: "justify", textIndent: 30 }} >
                 I manually configured the pipelines by using the AWS console. I kept the three steps in each pipelines: source, build and deploy. <br /> The first step does a checkout of the code with AWS codestar.
                 For the production and pre-production pipeline codestar is plugged in the master branch of my github repository, the develop pipeline is plugged in the develop branch of my repository. Both develop and preprod pipelines
@@ -68,11 +67,11 @@ const BlogPage: React.FC = () => {
                     <li>API_KEY: A random string used in CDK for API usage plan, check code for more information</li>
                 </ul>
             </Typography>
-            <img src={require('../resources/jpg/codebuildenv.JPG')} alt="codebuild env" title="Codebuild environment"></img>
+            <img src="/jpg/codebuildenv.JPG" alt="codebuild env" title="Codebuild environment"></img>
             <Typography variant="body1" sx={{ marginTop: 2, textAlign: "justify", textIndent: 30 }} >
                 The third step is the deployment of the stack. It generate the cloudformation template and deploy the stack, I let you with a screenshot of the pipelines.
             </Typography>
-            <img src={require('../resources/jpg/pipelinestep.JPG')} alt="pipeline screen" title="Pipeline steps" sizes=""></img>
+            <img src="/jpg/pipelinestep.JPG" alt="pipeline screen" title="Pipeline steps" sizes=""></img>
             <Typography component="h1" variant="h5" sx={{ marginTop: 3 }}>
                 KNOWN PIPELINES ISSUES AND HOW TO IMPROVE THEM:
             </Typography>
@@ -91,36 +90,36 @@ const BlogPage: React.FC = () => {
                 the attribution of a domain name to cloudfront were done manually due to the failure of their implementation.<br />
                 Firstly I manually registered the domain of the application, the AWS wizard was pretty straight forward here:
             </Typography>
-            <img src={require('../resources/jpg/domain.JPG')} alt="domain" title="Domain"></img>
+            <img src="/jpg/domain.JPG" alt="domain" title="Domain"></img>
             <Typography variant="body1" sx={{ marginTop: 2, textAlign: "justify", textIndent: 30 }} >
                 I created a hosted zone using CDK with the AAAA record pointing to the cloudfront distribution. For your information, if you create a AAAA record your cloudfront distribution must have IPv6 activated.
                 I advise you also to check if the name servers of your hosted zone match your domain server names list, I manually change the domain server names list after the execution of the changeset.
             </Typography>
-            <img src={require('../resources/jpg/hostedzone.JPG')} alt="hosted zone" title="Hosted zone"></img>
+            <img src="/jpg/hostedzone.JPG" alt="hosted zone" title="Hosted zone"></img>
             <Typography variant="body1" sx={{ marginTop: 2, textAlign: "justify", textIndent: 30 }} >
                 I manually create a certificate in us-east-1 for cloudfront. It is mandatory to create a cloudfront certificate in us-east-1 even if your stack is in another region, my stack for example is in eu-west-3.
                 For the little story here, I had at first try to create the certificate with CDK (check the commented code in cdk-stack.ts on github) but it failed during the generation of the changeset, I never found why.
             </Typography>
-            <img src={require('../resources/jpg/certificate1.JPG')} alt="certificate" title="Certificate"></img>
+            <img src="/jpg/certificate1.JPG" alt="certificate" title="Certificate"></img>
             <Typography variant="body1" sx={{ marginTop: 2, textAlign: "justify", textIndent: 30 }} >
                 To issue your certificate you need to create CNAME record of your certificate in the hosted zone:
             </Typography>
-            <img src={require('../resources/jpg/CertificateCreateRecord.JPG')} alt="CCR" title="Certificate create record"></img>
+            <img src="/jpg/CertificateCreateRecord.JPG" alt="CCR" title="Certificate create record"></img>
             <Typography variant="body1" sx={{ marginTop: 2, textAlign: "justify", textIndent: 30 }} >
                 Then add domain and certificate to your cloudfront configuration:
             </Typography>
-            <img src={require('../resources/jpg/cloudfront.JPG')} alt="cloudfront" title="Cloudfront manual configuration"></img>
+            <img src="/jpg/cloudfront.JPG" alt="cloudfront" title="Cloudfront manual configuration"></img>
             <Typography component="h1" variant="h5" sx={{ marginTop: 3 }}>
                 SES CONFIGURATION
             </Typography>
             <Typography variant="body1" sx={{ marginTop: 2, textAlign: "justify", textIndent: 30 }} >
                 I set up a SES configuration quickly at the end of my project in order to add the "contact me" option in case of user support:
             </Typography>
-            <img src={require('../resources/jpg/SES.JPG')} alt="ses" title="SES"></img>
+            <img src="/jpg/SES.JPG" alt="ses" title="SES"></img>
             <Typography variant="body1" sx={{ marginTop: 2, textAlign: "justify", textIndent: 30 }} >
                 Add records to your hosted zone for the system to work properly:
             </Typography>
-            <img src={require('../resources/jpg/SESConfig1.JPG')} alt="SES domain configuration" title="SES domain configuration"></img>
+            <img src="/jpg/SESConfig1.JPG" alt="SES domain configuration" title="SES domain configuration"></img>
             <Typography component="h1" variant="h5" sx={{ marginTop: 3 }}>
                 CONCLUSION
             </Typography>
