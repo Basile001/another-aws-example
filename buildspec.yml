@@ -8,6 +8,7 @@ phases:
       - npm install
       # Install CDK dependencies
       - cd ../cdk
+      - npm install -g aws-cdk@2.160.0
       - npm install
       - cd ../
   pre_build:
@@ -32,6 +33,7 @@ phases:
       # front build
       - cp ./env/$STAGE/aws.ts ../front/my-app/src/configs/
       - cd ../front/my-app
+      - npm install -g typescript
       - npm install
       - npm run build
   post_build:
