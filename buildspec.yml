@@ -34,8 +34,8 @@ phases:
       # front build
       - cp ./env/$STAGE/aws.ts ../front/my-app/src/configs/
       - cd ../front/my-app
-      - npm prune --production
       - npm run build
+      - npm prune --production
   post_build:
     commands:
       - aws s3 cp --recursive build s3://$S3_STATIC_BUCKET/

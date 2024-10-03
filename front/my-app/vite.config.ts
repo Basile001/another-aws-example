@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
+import path from 'path'
 
 export default defineConfig({
     // depending on your application, base can also be "/"
@@ -15,4 +16,8 @@ export default defineConfig({
     define: {
         global: 'globalThis',
     },
+    build: {
+        outDir: path.resolve(__dirname, 'dist'),
+        emptyOutDir: true
+    }
 })
